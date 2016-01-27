@@ -69,8 +69,7 @@ namespace CreateInstance
             {
                 MyObject f = factory1.GetNewItem();
             }
-            Console.WriteLine("ItemFactory.GetNewItem: {0,38}", watch.Elapsed);
-
+            Console.WriteLine("new T():                                    {0,38}", watch.Elapsed);
 
             Console.ReadLine();
         }

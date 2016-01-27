@@ -9,4 +9,4 @@ Activator.CreateInstance<T>():|00:00:04:7137484
 FastObjectFactory.CreateObjec (empty cache):|00:00:00:1589818
 FastObjectFactory.CreateObjec (cache full):|00:00:00:1580787
 Linq Expressions – Creating objects:|00:00:00:1750399
-ItemFactory.GetNewItem:|00:00:05:2691291
+new T() :|00:00:05:2691291
