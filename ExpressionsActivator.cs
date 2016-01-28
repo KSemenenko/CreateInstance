@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CreateInstance
 {
-    public class ExpressActivator
+    public class ExpressionsActivator
     {
         public delegate T ObjectActivator<T>(params object[] args);
 

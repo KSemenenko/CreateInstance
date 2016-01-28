@@ -54,7 +54,7 @@ namespace CreateInstance
 
             watch = Stopwatch.StartNew();
             ConstructorInfo ctor = typeof(MyObject).GetConstructors().First();
-            ExpressActivator.ObjectActivator<MyObject> createdActivator = ExpressActivator.GetActivator<MyObject>(ctor);
+            ExpressionsActivator.ObjectActivator<MyObject> createdActivator = ExpressionsActivator.GetActivator<MyObject>(ctor);
 
             for (int i = 0; i < MAX; i++)
             {
