@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -8,7 +9,7 @@ namespace CreateInstance
     {
         public delegate T ObjectActivator<T>(params object[] args);
 
-        public static ObjectActivator<T> GetActivator<T>(ConstructorInfo ctor)
+        private static ObjectActivator<T> GetActivator<T>(ConstructorInfo ctor)
         {
             Type type = ctor.DeclaringType;
             ParameterInfo[] paramsInfo = ctor.GetParameters();
@@ -41,5 +42,13 @@ namespace CreateInstance
             var compiled = (ObjectActivator<T>)lambda.Compile();
             return compiled;
         }
+
+        public static ObjectActivator<T> Get<T>()
+        {
+            ConstructorInfo ctor = typeof(T).GetConstructors().First();
+            var createdActivator = ExpressionsActivator.GetActivator<T>(ctor);
+            return createdActivator;
+        }
+		
     }
 }

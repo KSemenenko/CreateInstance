@@ -10,7 +10,7 @@ namespace CreateInstance
     {
         static void Main(string[] args)
         {
-            int MAX = 10000000;
+            int MAX = 1000000;
             Stopwatch watch;
 
             Console.WriteLine("Number of iterates: {0}", MAX);
@@ -53,12 +53,12 @@ namespace CreateInstance
             Console.WriteLine("FastObjectFactory.CreateObjec (cache full): {0,18}", watch.Elapsed);
 
             watch = Stopwatch.StartNew();
-            ConstructorInfo ctor = typeof(MyObject).GetConstructors().First();
-            ExpressionsActivator.ObjectActivator<MyObject> createdActivator = ExpressionsActivator.GetActivator<MyObject>(ctor);
+
+            var activator = ExpressionsActivator.Get<MyObject>();
 
             for (int i = 0; i < MAX; i++)
             {
-                MyObject myObj = createdActivator();
+                MyObject myObj = activator();
 
             }
             Console.WriteLine("Linq Expressions – Creating objects:        {0,18}", watch.Elapsed);
@@ -69,7 +69,7 @@ namespace CreateInstance
             {
                 MyObject f = factory1.GetNewItem();
             }
-            Console.WriteLine("new T():                                    {0,38}", watch.Elapsed);
+            Console.WriteLine("new T() - Creating objects:                 {0,18}", watch.Elapsed);
 
             Console.ReadLine();
         }
