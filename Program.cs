@@ -71,6 +71,41 @@ namespace CreateInstance
             }
             Console.WriteLine("new T() - Creating objects:                 {0,18}", watch.Elapsed);
 
+            watch = Stopwatch.StartNew();
+
+            var expre = ExtensionsNew.New(typeof(MyObject));
+
+            for (int i = 0; i < MAX; i++)
+            {
+                MyObject myObj = expre as MyObject;
+
+            }
+            Console.WriteLine("Expressions New –  Creating objects:        {0,18}", watch.Elapsed);
+
+
+            watch = Stopwatch.StartNew();
+
+            var expreT = ExtensionsNew.New<MyObject>();
+
+            for (int i = 0; i < MAX; i++)
+            {
+                MyObject myObj = expreT;
+
+            }
+            Console.WriteLine("Expressions New<T> –  Creating objects:     {0,18}", watch.Elapsed);
+
+
+            watch = Stopwatch.StartNew();
+
+            var expreCtor = ExtensionsNew.New<MyObject>("1", "2");
+
+            for (int i = 0; i < MAX; i++)
+            {
+                MyObject myObj = expreT;
+
+            }
+            Console.WriteLine("Expressions New<T>(prm) – Creating objects: {0,18}", watch.Elapsed);
+
             Console.ReadLine();
         }
 
@@ -96,6 +131,16 @@ namespace CreateInstance
             public string n7 { get; set; }
             public string n8 { get; set; }
             public List<string> n9 { get; private set; }
+
+            public MyObject()
+            {
+            }
+
+            public MyObject(string s1, string s2)
+            {
+                n2 = s2;
+                n = s1;
+            }
         }
     }
 }
