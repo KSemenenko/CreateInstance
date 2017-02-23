@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes.Exporters;
 using CreateInstance.Methods;
 
 namespace CreateInstance
 {
+    [MarkdownExporter, AsciiDocExporter, HtmlExporter, CsvExporter, RPlotExporter]
     public class CreateInstanceTests
     {
         private readonly FastObjectFactory.CreateObject fastObjectFactory;
@@ -31,79 +33,79 @@ namespace CreateInstance
             expressionNewParametersObjectFactory = ExtensionsNew.NewFactory(typeof(MyTestObject), typeof(string), typeof(int));
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true, Description = "Сontrustor")]
         public MyTestObject ConstructorTest()
         {
             return new MyTestObject();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "new T()")]
         public MyTestObject GenericFactoryTest()
         {
             return genericFactory.GetNewItem();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "Activator.CreateInstance")]
         public MyTestObject ActivatorTypeofTest()
         {
-            return Activator.CreateInstance(typeof(MyTestObject)) as MyTestObject;
+            return (MyTestObject)Activator.CreateInstance(typeof(MyTestObject));
         }
 
-        [Benchmark]
+        [Benchmark(Description = "Activator.CreateInstanc<T>")]
         public MyTestObject ActivatorGenericTest()
         {
             return Activator.CreateInstance<MyTestObject>();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "FastObjectFactory")]
         public MyTestObject FastObjectFactoryTest()
         {
             return (MyTestObject)fastObjectFactory();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "ExpressionsActivator")]
         public MyTestObject ExpressionsActivatorTest()
         {
             return expressionsActivator();
         }
 
-        [Benchmark]
-        public MyTestObject FastActivatorTest()
-        {
-            return FastActivator.CreateInstance<MyTestObject>();
-        }
-
-        [Benchmark]
+        [Benchmark(Description = "DynamicModuleLambdaCompiler")]
         public MyTestObject DynamicModuleLambdaCompilerTest()
         {
             return dynamicModuleFactory();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "FastActivator<T>.Create")]
         public MyTestObject FastActivatorGenericTest()
         {
             return FastActivator<MyTestObject>.Create();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "FastActivator.CreateInstance<T>")]
+        public MyTestObject FastActivatorTest()
+        {
+            return FastActivator.CreateInstance<MyTestObject>();
+        }
+
+        [Benchmark(Description = "ExtensionsNew.NewFactory<T>")]
         public MyTestObject ExtensionsNewGenericTest()
         {
             return expressionNewFactory();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "ExtensionsNew.NewFactory")]
         public MyTestObject ExtensionsNewTypeofTest()
         {
             return (MyTestObject)expressionNewObjectFactory();
         }
 
-        [Benchmark]
+        [Benchmark(Description = "ExtensionsNew.NewFactory<T> with params")]
         public MyTestObject ExtensionsNewGenericParametersTest()
         {
             return expressionNewParametersFactory(new object[]{"1", 2});
         }
 
-        [Benchmark]
+        [Benchmark(Description = "ExtensionsNew.NewFactory with params")]
         public MyTestObject ExtensionsNewObjectParametersTest()
         {
             return (MyTestObject)expressionNewParametersObjectFactory(new object[] { "1", 2 });
