@@ -10,6 +10,9 @@ namespace CreateInstance
     {
         static void Main(string[] args)
         {
+            //var summary = BenchmarkRunner.Run<CreateInstanceTests>();
+
+
             int MAX = 1000000;
             Stopwatch watch;
 
