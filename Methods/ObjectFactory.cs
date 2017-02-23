@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Reflection.Emit;
 
-namespace CreateInstance
+namespace CreateInstance.Methods
 {
     public static class FastObjectFactory
     {
@@ -18,7 +18,7 @@ namespace CreateInstance
         public static CreateObject CreateObjectFactory<T>() where T : class
         {
             Type t = typeof(T);
-            var c = creatorCache[t] as CreateObject;
+            var c = (CreateObject)creatorCache[t];
             if (c == null)
             {
                 lock (creatorCache.SyncRoot)

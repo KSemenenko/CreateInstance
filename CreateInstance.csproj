@@ -172,7 +172,9 @@
     <Compile Include="CreateInstanceTests.cs" />
     <Compile Include="Methods\ExtensionsNew.cs" />
     <Compile Include="Methods\ExpressionsActivator.cs" />
+    <Compile Include="Methods\ItemFactory.cs" />
     <Compile Include="Methods\ObjectFactory.cs" />
+    <Compile Include="MyTestObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

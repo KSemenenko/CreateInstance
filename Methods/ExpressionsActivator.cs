@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace CreateInstance
+namespace CreateInstance.Methods
 {
     public class ExpressionsActivator
     {
