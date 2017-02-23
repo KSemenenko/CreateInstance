@@ -11,14 +11,36 @@ namespace CreateInstance
     {
         private readonly FastObjectFactory.CreateObject fastObjectFactory;
         private readonly ExpressionsActivator.ObjectActivator<MyTestObject> expressionsActivator;
-        private readonly ItemFactory<MyTestObject> itemFactory;
-
+        private readonly GenericFactory<MyTestObject> genericFactory;
+        private readonly Func<MyTestObject> dynamicModuleFactory;
+        private readonly Func<MyTestObject> expressionNewFactory;
+        private readonly Func<object> expressionNewObjectFactory;
+        private readonly Func<object[], MyTestObject> expressionNewParametersFactory;
+        private readonly Func<object[], object> expressionNewParametersObjectFactory;
 
         public CreateInstanceTests()
         {
             expressionsActivator = ExpressionsActivator.Get<MyTestObject>();
             fastObjectFactory = FastObjectFactory.CreateObjectFactory<MyTestObject>();
-            itemFactory = new ItemFactory<MyTestObject>();
+            genericFactory = new GenericFactory<MyTestObject>();
+            dynamicModuleFactory = DynamicModuleLambdaCompiler.GenerateFactory<MyTestObject>();
+            expressionNewFactory = ExtensionsNew.NewFactory<MyTestObject>();
+            expressionNewObjectFactory = ExtensionsNew.NewFactory(typeof(MyTestObject));
+
+            expressionNewParametersFactory = ExtensionsNew.NewFactory<MyTestObject>(typeof(string), typeof(int));
+            expressionNewParametersObjectFactory = ExtensionsNew.NewFactory(typeof(MyTestObject), typeof(string), typeof(int));
+        }
+
+        [Benchmark]
+        public MyTestObject ConstructorTest()
+        {
+            return new MyTestObject();
+        }
+
+        [Benchmark]
+        public MyTestObject GenericFactoryTest()
+        {
+            return genericFactory.GetNewItem();
         }
 
         [Benchmark]
@@ -39,7 +61,6 @@ namespace CreateInstance
             return (MyTestObject)fastObjectFactory();
         }
 
-
         [Benchmark]
         public MyTestObject ExpressionsActivatorTest()
         {
@@ -47,26 +68,45 @@ namespace CreateInstance
         }
 
         [Benchmark]
-        public MyTestObject ItemFactoryTest()
+        public MyTestObject FastActivatorTest()
         {
-            return itemFactory.GetNewItem();
+            return FastActivator.CreateInstance<MyTestObject>();
+        }
+
+        [Benchmark]
+        public MyTestObject DynamicModuleLambdaCompilerTest()
+        {
+            return dynamicModuleFactory();
+        }
+
+        [Benchmark]
+        public MyTestObject FastActivatorGenericTest()
+        {
+            return FastActivator<MyTestObject>.Create();
+        }
+
+        [Benchmark]
+        public MyTestObject ExtensionsNewGenericTest()
+        {
+            return expressionNewFactory();
         }
 
         [Benchmark]
         public MyTestObject ExtensionsNewTypeofTest()
         {
-            return (MyTestObject)ExtensionsNew.New(typeof(MyTestObject));
+            return (MyTestObject)expressionNewObjectFactory();
         }
 
         [Benchmark]
-        public MyTestObject ExtensionsNewTTest()
+        public MyTestObject ExtensionsNewGenericParametersTest()
         {
-            return ExtensionsNew.New<MyTestObject>();
+            return expressionNewParametersFactory(new object[]{"1", 2});
         }
+
         [Benchmark]
-        public MyTestObject ExtensionsNewTParamTest()
+        public MyTestObject ExtensionsNewObjectParametersTest()
         {
-            return ExtensionsNew.New<MyTestObject>("1",2);
+            return (MyTestObject)expressionNewParametersObjectFactory(new object[] { "1", 2 });
         }
     }
 }

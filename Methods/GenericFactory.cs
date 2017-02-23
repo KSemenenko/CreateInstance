@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CreateInstance.Methods
 {
-    public class ItemFactory<T> where T : new()
+    public class GenericFactory<T> where T : new()
     {
         public T GetNewItem()
         {

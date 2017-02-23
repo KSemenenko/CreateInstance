@@ -6,50 +6,42 @@ namespace CreateInstance.Methods
 {
     public static class ExtensionsNew
     {
-        public static T New<T>()
+        public static Func<T> NewFactory<T>()
         {
             Type type = typeof(T);
             Func<T> method = Expression.Lambda<Func<T>>(Expression.Block(type, new Expression[] { Expression.New(type) })).Compile();
-            return method();
+            return method;
         }
 
-        public static object New(Type type)
+        public static Func<object> NewFactory(Type type)
         {
             Func<object> method = Expression.Lambda<Func<object>>(Expression.Block(type, new Expression[] { Expression.New(type) })).Compile();
-            return method();
+            return method;
         }
 
-        public static object New(Type type, params object[] parameters)
+        public static Func<object[],object> NewFactory(Type type, params Type[] parameters)
         {
-            var types = parameters.Select(item => item.GetType()).ToArray();
-
-            var constructorInfo = type.GetConstructor(types);
+            var constructorInfo = type.GetConstructor(parameters);
 
             var args = Expression.Parameter(typeof(object[]), "args");
             var body = Expression.New(constructorInfo,
-                                      types.Select((t, i) => Expression.Convert(Expression.ArrayIndex(args, Expression.Constant(i)), t)).ToArray());
+                                      parameters.Select((t, i) => Expression.Convert(Expression.ArrayIndex(args, Expression.Constant(i)), t)));
             var outer = Expression.Lambda<Func<object[], object>>(body, args);
             var func = outer.Compile();
-            return func(parameters);
+            return func;
         }
 
-        public static T New<T>(params object[] parameters)
+        public static Func<object[], T> NewFactory<T>(params Type[] parameters)
         {
             Type type = typeof(T);
-            var types = parameters.Select(item => item.GetType()).ToArray();
-
-            var constructorInfo = type.GetConstructor(types);
+            var constructorInfo = type.GetConstructor(parameters);
 
             var args = Expression.Parameter(typeof(object[]), "args");
             var body = Expression.New(constructorInfo,
-                                      types.Select(
-                                          (t, i) => Expression.Convert(Expression.ArrayIndex(args, Expression.Constant(i)), t))
-                                           .ToArray());
+                                      parameters.Select((t, i) => Expression.Convert(Expression.ArrayIndex(args, Expression.Constant(i)), t)));
             var outer = Expression.Lambda<Func<object[], T>>(body, args);
             var func = outer.Compile();
-
-            var obj = func(parameters);
-            return obj;
+            return func;
         }
     }
 }

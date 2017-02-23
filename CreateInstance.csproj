@@ -170,9 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateInstanceTests.cs" />
+    <Compile Include="Methods\DynamicModuleLambdaCompiler.cs" />
     <Compile Include="Methods\ExtensionsNew.cs" />
     <Compile Include="Methods\ExpressionsActivator.cs" />
-    <Compile Include="Methods\ItemFactory.cs" />
+    <Compile Include="Methods\FastActivator.cs" />
+    <Compile Include="Methods\GenericFactory.cs" />
     <Compile Include="Methods\ObjectFactory.cs" />
     <Compile Include="MyTestObject.cs" />
     <Compile Include="Program.cs" />

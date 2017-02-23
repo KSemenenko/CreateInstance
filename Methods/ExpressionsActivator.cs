@@ -45,7 +45,7 @@ namespace CreateInstance.Methods
 
         public static ObjectActivator<T> Get<T>()
         {
-            ConstructorInfo ctor = typeof(T).GetConstructors().First();
+            ConstructorInfo ctor = typeof(T).GetConstructors()[0];
             var createdActivator = ExpressionsActivator.GetActivator<T>(ctor);
             return createdActivator;
         }
