@@ -9,9 +9,8 @@ Processor=AMD FX(tm)-8300 Eight-Core Processor , ProcessorCount=8
 Frequency=3237665 Hz, Resolution=308.8646 ns, Timer=TSC
   [Host]     : Clr 4.0.30319.42000, 64bit RyuJIT-v4.6.1586.0 [AttachedDebugger]
   DefaultJob : Clr 4.0.30319.42000, 64bit RyuJIT-v4.6.1586.0
-```
 
-```
+  
                                  Method |       Mean |    StdDev | Scaled | Scaled-StdDev |  Gen 0 |
 --------------------------------------- |----------- |---------- |------- |-------------- |------- |
                              Contrustor |  7.3578 ns | 0.4366 ns |   1.00 |          0.00 | 0.0252 |
