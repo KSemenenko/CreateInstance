@@ -51,7 +51,7 @@ namespace CreateInstance
             return (MyTestObject)Activator.CreateInstance(typeof(MyTestObject));
         }
 
-        [Benchmark(Description = "Activator.CreateInstanc<T>")]
+        [Benchmark(Description = "Activator.CreateInstance<T>")]
         public MyTestObject ActivatorGenericTest()
         {
             return Activator.CreateInstance<MyTestObject>();
